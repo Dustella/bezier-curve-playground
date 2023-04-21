@@ -3,10 +3,10 @@ import { useDraggable } from '@vueuse/core'
 import { onMounted, reactive, ref } from 'vue'
 
 const points = reactive([
-  { x: 0, y: 0 },
-  { x: 20, y: 100 },
-  { x: 100, y: 10 },
-  { x: 100, y: 100 },
+  { x: 10, y: 400 },
+  { x: 120, y: 700 },
+  { x: 200, y: 600 },
+  { x: 300, y: 400 },
 ])
 
 const circle1 = ref<HTMLElement>()
@@ -24,39 +24,68 @@ onMounted(() => {
 </script>
 
 <template>
-  <h1 class="">
-    test
-  </h1>
-  <div class="border-2 h-100  relative">
-    <!-- create four circles -->
-    <div
-      ref="circle1" :style="style1"
-      class="absolute w-8 h-8 bg-blue-500 rounded-full z-200"
+  <div
+    ref="circle1" :style="style1"
+    class="fixed w-4 h-4 bg-blue-500 rounded-full z-200 translate-x--1/2 translate-y--1/2"
+  />
+  <div
+    ref="circle2" :style="style2"
+    class="fixed w-4 h-4 bg-blue-500 rounded-full z-200 translate-x--1/2 translate-y--1/2"
+  />    <div
+    ref="circle3" :style="style3"
+    class="fixed w-4 h-4 bg-blue-500 rounded-full z-200 translate-x--1/2 translate-y--1/2"
+  />    <div
+    ref="circle4" :style="style4"
+    class="fixed w-4 h-4 bg-blue-500 rounded-full z-200 translate-x--1/2 translate-y--1/2"
+  />
+  <!-- create four circles -->
+  <svg
+    class="fixed inset-0 z-0 bg-transparent h-full w-full"
+    view-box="0 0 200 200"
+
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <!-- create a bezier curve -->
+    <!-- create binding with reactive 'points' -->
+    <path
+      :d="`M${x1} ${y1} C ${x2} ${y2} ${x3} ${y3} ${x4} ${y4}`"
+      stroke="black"
+      fill="transparent"
+    /></svg>
+  <!-- use svg to draw two lines linking xy1 xy2 and xy3 xy4 -->
+  <svg
+    class="fixed inset-0 z--1 bg-white h-full w-full"
+  >
+    <line
+      :x1="x1" :y1="y1" :x2="x2" :y2="y2"
+      stroke="blue"
+
+      fill="transparent"
     />
-    <div
-      ref="circle2" :style="style2"
-      class="absolute w-8 h-8 bg-blue-500 rounded-full z-200"
-    />    <div
-      ref="circle3" :style="style3"
-      class="absolute w-8 h-8 bg-blue-500 rounded-full z-200"
-    />    <div
-      ref="circle4" :style="style4"
-      class="absolute w-8 h-8 bg-blue-500 rounded-full z-200"
+    <line
+      :x1="x3" :y1="y3" :x2="x4" :y2="y4"
+      stroke="blue"
+
+      fill="transparent"
     />
-    <svg
-      class="absolute inset-0 z--1"
-      viewBox="0 0 200 200"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <!-- create a bezier curve -->
-      <!-- create binding with reactive 'points' -->
-      <path
-        :d="`M${points[0].x} ${points[0].y} C ${points[1].x} ${points[1].y}, ${points[2].x} ${points[2].y}, ${points[3].x} ${points[3].y}`"
-        stroke="black"
-        fill="transparent"
-      /></svg>
+
+  </svg>
+
+  <div class="top-0 fixed inset-x-0 user-select-none">
+    <h2>
+      just a demo for bezier curve
+    </h2>
+    <p>
+      due to some issues, touch screen will not work properly
+      <br>
+      plase use mouse to drag the points
+    </p>
+    x1  {{ x1 }} y1 {{ y1 }}<br>
+    x2  {{ x2 }} y2 {{ y2 }}<br>
+    x3  {{ x3 }} y3 {{ y3 }}<br>
+    x4  {{ x4 }} y4 {{ y4 }}<br>
+    <p>Dustella, under AGPL 3.0, <a href="https://github.com/Dustella/bezier-curve-playground">Github</a> </p>
   </div>
-  {{ points }}
 </template>
 
 <style scoped>
